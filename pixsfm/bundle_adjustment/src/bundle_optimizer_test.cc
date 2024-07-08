@@ -118,8 +118,6 @@ void GenerateReconstruction(const size_t num_images, const size_t num_points,
     reconstruction->Image(image_id).SetPoints2D(points2D);
   }
 
-  reconstruction->SetUp(correspondence_graph);
-
   for (size_t i = 0; i < num_images; ++i) {
     const image_t image_id = static_cast<image_t>(i);
     TrackElement track_el;
@@ -144,7 +142,7 @@ void CompareReconstructions(colmap::Reconstruction* reconstruction1,
     auto& image2 = reconstruction2->Image(image_pair.first);
     EXPECT_ALL_NEAR((image1).CamFromWorld().rotation.coeffs(), (image2).CamFromWorld().rotation.coeffs());
     EXPECT_ALL_NEAR((image1).CamFromWorld().translation, (image2).CamFromWorld().translation);
-
+  }
   for (auto& camera_pair : reconstruction1->Cameras()) {
     auto& camera1 = camera_pair.second;
     auto& camera2 = reconstruction2->Camera(camera_pair.first);
